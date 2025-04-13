@@ -23,7 +23,7 @@ const projects = [
     {
         title: "STUDY-SYNC-AI",
         description: "Created a web-based platform for students to manage academic schedules and receive AI-driven study recommendations. Built using HTML, CSS, and Java, with AI integration for smart study tips and prioritization.",
-        image: "images/study-sync-ai.jpg",
+        image: "https://res.cloudinary.com/dcd6l5egh/image/upload/v1744522707/NEW_zuw5da.png", // Corrected image URL to match HTML
         link: "https://study-sync-ai-powered.vercel.app/"
     }
     // Add more projects here as needed
@@ -42,6 +42,7 @@ const certifications = [
     }
     // Add more certifications here as needed
 ];
+
 // Function to populate Skills section
 function renderSkills() {
     const skillsList = document.getElementById("skills-list");
@@ -98,10 +99,8 @@ const body = document.body;
 
 themeToggle.addEventListener("click", () => {
     body.classList.toggle("dark-theme");
-    // Update icon based on theme
     const isDark = body.classList.contains("dark-theme");
     themeToggle.innerHTML = `<i class="fas ${isDark ? "fa-sun" : "fa-moon"}"></i>`;
-    // Save theme preference to localStorage
     localStorage.setItem("theme", isDark ? "dark" : "light");
 });
 
@@ -114,34 +113,62 @@ window.addEventListener("load", () => {
     }
 });
 
-// ScrollReveal Animations
-ScrollReveal().reveal(".section", {
-    delay: 200,
-    distance: "50px",
-    origin: "bottom",
-    duration: 1000,
-    easing: "ease-in-out"
-});
+// Contact Form Submission Feedback
+const contactForm = document.querySelector(".contact-form");
+if (contactForm) {
+    contactForm.addEventListener("submit", (e) => {
+        // Note: Formspree handles submission; this is just client-side feedback
+        setTimeout(() => {
+            alert("Thank you for your message! I'll get back to you soon.");
+            contactForm.reset(); // Clear form after submission
+        }, 500); // Delay to simulate submission
+    });
+}
+
+// ScrollReveal Animations with Mobile Optimization
+function getScrollRevealConfig(isMobile) {
+    return {
+        section: {
+            delay: 200,
+            distance: isMobile ? "15px" : "20px", // Reduced for mobile
+            origin: "bottom",
+            duration: isMobile ? 600 : 800, // Faster on mobile
+            easing: "ease-out",
+            interval: 100
+        },
+        item: {
+            delay: 300,
+            distance: isMobile ? "10px" : "15px", // Subtler for mobile
+            origin: "bottom",
+            duration: isMobile ? 500 : 700,
+            easing: "ease-out",
+            interval: 150
+        }
+    };
+}
+
+const isMobile = window.innerWidth <= 768;
+const config = getScrollRevealConfig(isMobile);
+
+ScrollReveal().reveal(".section", config.section);
 
 ScrollReveal().reveal(".skill-item", {
-    delay: 300,
-    distance: "30px",
-    origin: "left",
-    interval: 100
+    ...config.item,
+    origin: "left"
 });
 
-ScrollReveal().reveal(".project-card", {
-    delay: 300,
-    distance: "30px",
-    origin: "bottom",
-    interval: 100
-});
+ScrollReveal().reveal(".project-card", config.item);
 
 ScrollReveal().reveal(".certification-item", {
-    delay: 300,
-    distance: "30px",
-    origin: "right",
-    interval: 100
+    ...config.item,
+    origin: "right"
+});
+
+ScrollReveal().reveal(".testimonial-item", config.item);
+
+ScrollReveal().reveal(".contact-form, .contact-info", {
+    ...config.item,
+    origin: "bottom"
 });
 
 // Initialize dynamic content on page load
