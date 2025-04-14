@@ -128,9 +128,14 @@ if (contactForm) {
 // View Toggle Functionality
 const viewToggle = document.getElementById("viewToggle");
 const navLinks = document.querySelector(".nav-links");
+const sections = document.querySelectorAll(".section");
 
 viewToggle.addEventListener("click", () => {
     navLinks.classList.toggle("active");
+    // Ensure sections are visible when toggle is clicked on mobile
+    sections.forEach(section => {
+        section.style.display = navLinks.classList.contains("active") ? "block" : "none";
+    });
     if (navLinks.classList.contains("active")) {
         alert("Switched to Mobile View");
     } else {
