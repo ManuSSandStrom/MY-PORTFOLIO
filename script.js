@@ -23,7 +23,7 @@ const projects = [
     {
         title: "STUDY-SYNC-AI",
         description: "Created a web-based platform for students to manage academic schedules and receive AI-driven study recommendations. Built using HTML, CSS, and Java, with AI integration for smart study tips and prioritization.",
-        image: "https://res.cloudinary.com/dcd6l5egh/image/upload/v1744522707/NEW_zuw5da.png", // Corrected image URL to match HTML
+        image: "https://res.cloudinary.com/dcd6l5egh/image/upload/v1744522707/NEW_zuw5da.png",
         link: "https://study-sync-ai-powered.vercel.app/"
     }
     // Add more projects here as needed
@@ -124,6 +124,19 @@ if (contactForm) {
         }, 500); // Delay to simulate submission
     });
 }
+
+// View Toggle Functionality
+const viewToggle = document.getElementById("viewToggle");
+const navLinks = document.querySelector(".nav-links");
+
+viewToggle.addEventListener("click", () => {
+    navLinks.classList.toggle("active");
+    if (navLinks.classList.contains("active")) {
+        alert("Switched to Mobile View");
+    } else {
+        alert("Switched to Desktop View");
+    }
+});
 
 // ScrollReveal Animations with Mobile Optimization
 function getScrollRevealConfig(isMobile) {
