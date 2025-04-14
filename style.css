@@ -83,7 +83,7 @@ nav {
     transition: all 0.3s ease;
 }
 
-/* Show toggle on mobile */
+/* Show toggle and manage mobile layout */
 @media (max-width: 768px) {
     #viewToggle {
         display: block;
@@ -106,10 +106,22 @@ nav {
         background-color: #fff;
         padding: 20px;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
     }
 
     .nav-links.active li {
         margin: 10px 0;
+    }
+
+    /* Ensure sections appear below the active nav */
+    .section {
+        display: none; /* Hide sections by default on mobile */
+    }
+
+    .nav-links.active ~ .section {
+        display: block; /* Show sections when nav is active */
+        margin-top: 10px; /* Add spacing below nav */
+        padding-top: 20px; /* Ensure content starts below nav */
     }
 }
 
