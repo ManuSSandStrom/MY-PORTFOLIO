@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Portfolio</title>
+    <title>Manohar Basappagari | Portfolio</title>
     <!-- Link to CSS -->
     <link rel="stylesheet" href="style.css">
     <!-- FontAwesome for icons -->
@@ -18,20 +18,23 @@
     <header id="header">
         <div class="container">
             <h1 class="logo">MANOHAR BASAPPAGARI</h1>
-            <nav>
+            <button class="nav-toggle" aria-label="Toggle Navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+            <nav class="nav-menu">
                 <ul class="nav-links">
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#skills">Skills</a></li>
-                    <li><a href="#projects">Projects</a></li>
-                    <li><a href="#certifications">Certifications</a></li>
-                    <li><a href="#education">Education</a></li>
-                    <li><a href="#achievements">Achievements</a></li>
-                    <li><a href="#testimonials">Testimonials</a></li>
-                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="#about" class="nav-link">About</a></li>
+                    <li><a href="#skills" class="nav-link">Skills</a></li>
+                    <li><a href="#projects" class="nav-link">Projects</a></li>
+                    <li><a href="#certifications" class="nav-link">Certifications</a></li>
+                    <li><a href="#education" class="nav-link">Education</a></li>
+                    <li><a href="#achievements" class="nav-link">Achievements</a></li>
+                    <li><a href="#testimonials" class="nav-link">Testimonials</a></li>
+                    <li><a href="#contact" class="nav-link">Contact</a></li>
                 </ul>
                 <!-- Theme Toggle Button -->
                 <button id="theme-toggle" aria-label="Toggle Dark/Light Theme">
-                    <i class="fas fa-meteor"></i>
+                    <i class="fas fa-moon"></i>
                 </button>
             </nav>
         </div>
@@ -55,17 +58,7 @@
     <section id="skills" class="section">
         <div class="container">
             <h2>Skills</h2>
-            <div class="skills-list" id="skills-list">
-                <div class="skill-item">
-                    <h3>Technical Skills</h3>
-                    <p><strong>Frontend:</strong> HTML, CSS</p>
-                    <p><strong>Programming:</strong> Java, C</p>
-                    <p><strong>Tools:</strong> MS Word, Excel, PowerPoint</p>
-                    <p><strong>Version Control:</strong> Git, GitHub</p>
-                    <p><strong>IDEs:</strong> VS Code, Eclipse</p>
-                </div>
-                <!-- Additional skills can be dynamically added via JavaScript -->
-            </div>
+            <div class="skills-list" id="skills-list"></div>
         </div>
     </section>
 
@@ -73,21 +66,7 @@
     <section id="projects" class="section">
         <div class="container">
             <h2>Projects</h2>
-            <div class="projects-grid" id="projects-grid">
-                <div class="project-card">
-                    <img src="https://res.cloudinary.com/dcd6l5egh/image/upload/v1744520866/THUMBNAIL_FOR_RESUME_dikyqp.png" alt="Resume Builder">
-                    <h3>Resume Builder</h3>
-                    <p>Developed a dynamic resume builder using HTML, CSS, and JavaScript, enabling users to input and generate downloadable resumes in real-time.</p>
-                    <a href="https://rebrand.ly/7ad1dc" target="_blank">View Project</a>
-                </div>
-                <div class="project-card">
-                    <img src="https://res.cloudinary.com/dcd6l5egh/image/upload/v1744522707/NEW_zuw5da.png" alt="Study-Sync AI">
-                    <h3>Study-Sync AI</h3>
-                    <p>Created a web-based platform for students to manage academic schedules and receive AI-driven study recommendations. Built using HTML, CSS, and Java, with AI integration for smart study tips and prioritization.</p>
-                    <a href="https://study-sync-ai-powered.vercel.app/" target="_blank">View Project</a>
-                </div>
-                <!-- Additional projects can be dynamically added via JavaScript -->
-            </div>
+            <div class="projects-grid" id="projects-grid"></div>
         </div>
     </section>
 
@@ -95,17 +74,7 @@
     <section id="certifications" class="section">
         <div class="container">
             <h2>Certifications</h2>
-            <div class="certifications-list" id="certifications-list">
-                <div class="certification-item">
-                    <h3>Meta Front-End Developer Professional Certificate</h3>
-                    <p>Coursera - 2024</p>
-                </div>
-                <div class="certification-item">
-                    <h3>Responsive Web Design Certification</h3>
-                    <p>freeCodeCamp - 2024</p>
-                </div>
-                <!-- Additional certifications can be dynamically added via JavaScript -->
-            </div>
+            <div class="certifications-list" id="certifications-list"></div>
         </div>
     </section>
 
@@ -118,11 +87,12 @@
                     <h3>Masters of Computer Applications - Pursuing</h3>
                     <p>Madanapalle Institute of Technology and Science, Madanapalle, Andhra Pradesh - India</p>
                     <p>Sep 2024 - Mar 2026</p>
+                </div>
+                <div class="education-item">
                     <h3>Bachelor of Computer Applications</h3>
                     <p>Mother Teresa Degree College, Palamaner, Andhra Pradesh - India</p>
                     <p>Jun 2022 - Jul 2024</p>
                 </div>
-                <!-- Add more education items as needed -->
             </div>
         </div>
     </section>
@@ -136,7 +106,6 @@
                 <li>Created a romantic AI chatbot using HTML, CSS, and JavaScript with GPT integration.</li>
                 <li>Built an academic project (Study-Sync-AI) to help students schedule and get AI-based exam guidance.</li>
                 <li>Started a YouTube channel “Manu.DevLife” to teach HTML, CSS, and Java, helping beginners learn web development basics.</li>
-                <!-- Add more achievements as needed -->
             </ul>
         </div>
     </section>
@@ -152,11 +121,11 @@
                 </div>
                 <div class="testimonial-item">
                     <p>"Working with Manohar on Study-Sync AI was a pleasure. His ability to integrate AI features with a clean interface made the project stand out."</p>
-                    <cite>DR. JUDE MOSSES ANTO DEVAKANTH, Project Supervisor</cite>
+                    <cite>Dr. Jude Moses Anto Devakanth, Project Supervisor</cite>
                 </div>
                 <div class="testimonial-item">
                     <p>"Manohar's YouTube tutorials helped me grasp HTML and CSS basics quickly. He's a natural teacher and developer!"</p>
-                    <cite>SIDDA REDDY, Subscriber</cite>
+                    <cite>Sidda Reddy, Subscriber</cite>
                 </div>
             </div>
         </div>
@@ -186,7 +155,7 @@
                     </a>
                 </div>
                 <!-- Contact Form -->
-                <form class="contact-form" action="https://formspree.io/f/your-form-id" method="POST">
+                <div class="contact-form">
                     <label for="name">Name</label>
                     <input type="text" id="name" name="name" required>
                     <label for="email">Email</label>
@@ -196,7 +165,7 @@
                     <button type="submit" class="btn">
                         <i class="fas fa-paper-plane"></i> Send Message
                     </button>
-                </form>
+                </div>
             </div>
         </div>
     </section>
@@ -220,6 +189,6 @@
     </footer>
 
     <!-- Link to JavaScript -->
-    <script src="js/script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>

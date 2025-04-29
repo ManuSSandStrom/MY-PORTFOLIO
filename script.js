@@ -10,7 +10,6 @@ const skills = [
     { name: "MS Word", icon: "fas fa-file-word" },
     { name: "Excel", icon: "fas fa-file-excel" },
     { name: "PowerPoint", icon: "fas fa-file-powerpoint" }
-    // Add more skills here as needed
 ];
 
 const projects = [
@@ -23,10 +22,9 @@ const projects = [
     {
         title: "STUDY-SYNC-AI",
         description: "Created a web-based platform for students to manage academic schedules and receive AI-driven study recommendations. Built using HTML, CSS, and Java, with AI integration for smart study tips and prioritization.",
-        image: "https://res.cloudinary.com/dcd6l5egh/image/upload/v1744522707/NEW_zuw5da.png", // Corrected image URL to match HTML
+        image: "https://res.cloudinary.com/dcd6l5egh/image/upload/v1744522707/NEW_zuw5da.png",
         link: "https://study-sync-ai-powered.vercel.app/"
     }
-    // Add more projects here as needed
 ];
 
 const certifications = [
@@ -40,7 +38,6 @@ const certifications = [
         issuer: "freeCodeCamp",
         year: "2024"
     }
-    // Add more certifications here as needed
 ];
 
 // Function to populate Skills section
@@ -93,6 +90,25 @@ function renderCertifications() {
     });
 }
 
+// Toggle Menu Functionality
+const navToggle = document.querySelector(".nav-toggle");
+const navMenu = document.querySelector(".nav-menu");
+const navLinks = document.querySelectorAll(".nav-link");
+
+navToggle.addEventListener("click", () => {
+    navMenu.classList.toggle("active");
+    const isOpen = navMenu.classList.contains("active");
+    navToggle.innerHTML = `<i class="fas ${isOpen ? "fa-times" : "fa-bars"}"></i>`;
+});
+
+// Close menu when a nav link is clicked
+navLinks.forEach(link => {
+    link.addEventListener("click", () => {
+        navMenu.classList.remove("active");
+        navToggle.innerHTML = `<i class="fas fa-bars"></i>`;
+    });
+});
+
 // Theme Toggle Functionality
 const themeToggle = document.getElementById("theme-toggle");
 const body = document.body;
@@ -115,30 +131,56 @@ window.addEventListener("load", () => {
 
 // Contact Form Submission Feedback
 const contactForm = document.querySelector(".contact-form");
-if (contactForm) {
-    contactForm.addEventListener("submit", (e) => {
-        // Note: Formspree handles submission; this is just client-side feedback
-        setTimeout(() => {
-            alert("Thank you for your message! I'll get back to you soon.");
-            contactForm.reset(); // Clear form after submission
-        }, 500); // Delay to simulate submission
-    });
-}
+const contactFormInputs = contactForm.querySelectorAll("input, textarea");
+const contactFormButton = contactForm.querySelector("button");
+
+contactFormButton.addEventListener("click", (e) => {
+    e.preventDefault(); // Prevent default since no <form> tag
+    // Simulate Formspree submission (replace with actual Formspree endpoint in production)
+    const formData = {
+        name: contactForm.querySelector("#name").value,
+        email: contactForm.querySelector("#email").value,
+        message: contactForm.querySelector("#message").value
+    };
+
+    if (formData.name && formData.email && formData.message) {
+        fetch("https://formspree.io/f/your-form-id", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(formData)
+        })
+        .then(response => {
+            if (response.ok) {
+                alert("Thank you for your message! I'll get back to you soon.");
+                contactFormInputs.forEach(input => (input.value = "")); // Clear form
+            } else {
+                alert("There was an error sending your message. Please try again.");
+            }
+        })
+        .catch(() => {
+            alert("Network error. Please try again later.");
+        });
+    } else {
+        alert("Please fill out all fields.");
+    }
+});
 
 // ScrollReveal Animations with Mobile Optimization
 function getScrollRevealConfig(isMobile) {
     return {
         section: {
             delay: 200,
-            distance: isMobile ? "15px" : "20px", // Reduced for mobile
+            distance: isMobile ? "15px" : "20px",
             origin: "bottom",
-            duration: isMobile ? 600 : 800, // Faster on mobile
+            duration: isMobile ? 600 : 800,
             easing: "ease-out",
             interval: 100
         },
         item: {
             delay: 300,
-            distance: isMobile ? "10px" : "15px", // Subtler for mobile
+            distance: isMobile ? "10px" : "15px",
             origin: "bottom",
             duration: isMobile ? 500 : 700,
             easing: "ease-out",
@@ -151,25 +193,11 @@ const isMobile = window.innerWidth <= 768;
 const config = getScrollRevealConfig(isMobile);
 
 ScrollReveal().reveal(".section", config.section);
-
-ScrollReveal().reveal(".skill-item", {
-    ...config.item,
-    origin: "left"
-});
-
+ScrollReveal().reveal(".skill-item", { ...config.item, origin: "left" });
 ScrollReveal().reveal(".project-card", config.item);
-
-ScrollReveal().reveal(".certification-item", {
-    ...config.item,
-    origin: "right"
-});
-
+ScrollReveal().reveal(".certification-item", { ...config.item, origin: "right" });
 ScrollReveal().reveal(".testimonial-item", config.item);
-
-ScrollReveal().reveal(".contact-form, .contact-info", {
-    ...config.item,
-    origin: "bottom"
-});
+ScrollReveal().reveal(".contact-form, .contact-info", { ...config.item, origin: "bottom" });
 
 // Initialize dynamic content on page load
 document.addEventListener("DOMContentLoaded", () => {
