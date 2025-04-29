@@ -125,7 +125,7 @@ header .container {
     color: #FFFFFF;
     font-weight: 400;
     position: relative;
-   >}
+}
 .nav-link:hover {
     color: #93C5FD;
 }
@@ -461,7 +461,8 @@ header .container {
 
 /* Contact Section */
 .contact-content {
-    display:ימעל, justify-content: space-between;
+    display: flex;
+    justify-content: space-between;
     align-items: flex-start;
     margin-top: 15px;
     gap: 20px;
