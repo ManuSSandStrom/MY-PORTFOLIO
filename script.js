@@ -129,42 +129,50 @@ window.addEventListener("load", () => {
     }
 });
 
-// Contact Form Submission Feedback
-const contactForm = document.querySelector(".contact-form");
-const contactFormInputs = contactForm.querySelectorAll("input, textarea");
-const contactFormButton = contactForm.querySelector("button");
+// Contact Form Submission with WhatsApp Integration
+const contactForm = document.getElementById("contact-form");
 
-contactFormButton.addEventListener("click", (e) => {
-    e.preventDefault(); // Prevent default since no <form> tag
-    // Simulate Formspree submission (replace with actual Formspree endpoint in production)
-    const formData = {
-        name: contactForm.querySelector("#name").value,
-        email: contactForm.querySelector("#email").value,
-        message: contactForm.querySelector("#message").value
-    };
+contactForm.addEventListener("submit", (e) => {
+    e.preventDefault(); // Prevent default form submission
 
-    if (formData.name && formData.email && formData.message) {
-        fetch("https://formspree.io/f/your-form-id", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(formData)
-        })
-        .then(response => {
-            if (response.ok) {
-                alert("Thank you for your message! I'll get back to you soon.");
-                contactFormInputs.forEach(input => (input.value = "")); // Clear form
-            } else {
-                alert("There was an error sending your message. Please try again.");
-            }
-        })
-        .catch(() => {
-            alert("Network error. Please try again later.");
-        });
-    } else {
+    // Get form values
+    const name = document.getElementById("name").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const phone = document.getElementById("phone").value.trim();
+    const message = document.getElementById("message").value.trim();
+
+    // Validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phoneRegex = /^\d{10}$/;
+
+    if (!name || !email || !phone || !message) {
         alert("Please fill out all fields.");
+        return;
     }
+
+    if (!emailRegex.test(email)) {
+        alert("Please enter a valid email address.");
+        return;
+    }
+
+    if (!phoneRegex.test(phone)) {
+        alert("Please enter a valid 10-digit phone number.");
+        return;
+    }
+
+    // Format the message for WhatsApp
+    const formattedMessage = encodeURIComponent(
+        `Name: ${name}\nEmail: ${email}\nPhone: ${phone}\nMessage: ${message}`
+    );
+
+    // Show success alert
+    alert("Your message is being sent via WhatsApp!");
+
+    // Redirect to WhatsApp
+    window.location.href = `https://wa.me/919515022680?text=${formattedMessage}`;
+
+    // Reset the form
+    contactForm.reset();
 });
 
 // ScrollReveal Animations with Mobile Optimization
@@ -197,7 +205,7 @@ ScrollReveal().reveal(".skill-item", { ...config.item, origin: "left" });
 ScrollReveal().reveal(".project-card", config.item);
 ScrollReveal().reveal(".certification-item", { ...config.item, origin: "right" });
 ScrollReveal().reveal(".testimonial-item", config.item);
-ScrollReveal().reveal(".contact-form, .contact-info", { ...config.item, origin: "bottom" });
+ScrollReveal().reveal(".contact-form", { ...config.item, origin: "bottom" });
 
 // Initialize dynamic content on page load
 document.addEventListener("DOMContentLoaded", () => {

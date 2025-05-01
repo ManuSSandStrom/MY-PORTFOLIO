@@ -126,6 +126,7 @@ header .container {
     font-weight: 400;
     position: relative;
 }
+
 .nav-link:hover {
     color: #93C5FD;
 }
@@ -462,62 +463,16 @@ header .container {
 /* Contact Section */
 .contact-content {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: flex-start;
     margin-top: 15px;
     gap: 20px;
 }
 
-.contact-info p {
-    font-size: 1rem;
-    margin-bottom: 8px;
-    color: #1E3A8A;
-    font-weight: 400;
-}
-
-.contact-info p i {
-    margin-right: 8px;
-    color: #3B82F6;
-}
-
-.social-links {
-    display: flex;
-    gap: 12px;
-}
-
-.social-links a {
+.contact-content h3 {
     font-size: 1.4rem;
-    color: #1E3A8A;
-    transition: color 0.3s ease;
-}
-
-.social-links a:hover {
-    color: #93C5FD;
-}
-
-.btn {
-    display: inline-block;
-    padding: 10px 20px;
-    background: #3B82F6;
-    color: #FFFFFF;
-    text-decoration: none;
-    border-radius: 5px;
-    font-weight: 700;
-    box-shadow: 0 2px 10px rgba(59, 130, 246, 0.3);
-    transition: background 0.3s ease, transform 0.3s ease;
-}
-
-.btn:hover {
-    background: #1E3A8A;
-    transform: translateY(-2px);
-}
-
-.btn i {
-    margin-right: 8px;
-}
-
-.hire-btn {
-    margin-top: 10px;
+    text-align: center;
+    margin-bottom: 15px;
 }
 
 /* Contact Form */
@@ -561,6 +516,77 @@ header .container {
     align-self: flex-start;
 }
 
+/* Social Links */
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.social-links a {
+    font-size: 1.6rem;
+    color: #1E3A8A;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.social-links a:hover {
+    color: #93C5FD;
+    transform: scale(1.2);
+}
+
+/* Floating Action Buttons */
+.floating-buttons {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 1000;
+}
+
+.fab-btn {
+    width: 50px;
+    height: 50px;
+    background: #3B82F6;
+    color: #FFFFFF;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    box-shadow: 0 2px 10px rgba(59, 130, 246, 0.3);
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.fab-btn:hover {
+    background: #1E3A8A;
+    transform: scale(1.1);
+}
+
+/* Button Styles */
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background: #3B82F6;
+    color: #FFFFFF;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: 700;
+    box-shadow: 0 2px 10px rgba(59, 130, 246, 0.3);
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.btn:hover {
+    background: #1E3A8A;
+    transform: translateY(-2px);
+}
+
+.btn i {
+    margin-right: 8px;
+}
+
 /* Footer */
 footer {
     background: #1E3A8A;
@@ -596,7 +622,7 @@ footer .container {
 /* Dark Theme */
 body.dark-theme {
     background: linear-gradient(135deg, #1E3A8A 0%, #111827 100%);
-    color: #FFFFFF;
+color: #FFFFFF;
 }
 
 body.dark-theme header {
@@ -642,8 +668,7 @@ body.dark-theme .testimonial-item p {
     color: #D1D5DB;
 }
 
-body.dark-theme .social-links a,
-body.dark-theme .contact-info p {
+body.dark-theme .social-links a {
     color: #FFFFFF;
 }
 
@@ -673,6 +698,15 @@ body.dark-theme .contact-form textarea {
     background: #1E3A8A;
     color: #FFFFFF;
     border-color: #93C5FD;
+}
+
+body.dark-theme .fab-btn {
+    background: #3B82F6;
+}
+
+body.dark-theme .fab-btn:hover {
+    background: #FFFFFF;
+    color: #1E3A8A;
 }
 
 /* Responsive Design */
@@ -762,6 +796,18 @@ body.dark-theme .contact-form textarea {
     .section:hover {
         transform: translateY(-3px);
     }
+
+    .floating-buttons {
+        bottom: 15px;
+        right: 15px;
+        gap: 8px;
+    }
+
+    .fab-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+    }
 }
 
 @media (max-width: 480px) {
@@ -802,8 +848,7 @@ body.dark-theme .contact-form textarea {
     .certification-item p,
     .education-item p,
     .achievements-list li,
-    .testimonial-item p,
-    .contact-info p {
+    .testimonial-item p {
         font-size: 0.8rem;
     }
 
@@ -820,7 +865,24 @@ body.dark-theme .contact-form textarea {
     .nav-menu {
         width: 200px;
     }
+
     .nav-toggle {
         display: block;
+    }
+
+    .social-links a {
+        font-size: 1.4rem;
+    }
+
+    .floating-buttons {
+        bottom: 10px;
+        right: 10px;
+        gap: 6px;
+    }
+
+    .fab-btn {
+        width: 35px;
+        height: 35px;
+        font-size: 1rem;
     }
 }
