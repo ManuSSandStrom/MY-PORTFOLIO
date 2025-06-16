@@ -1,1 +1,1283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="icon.png" type="image/x-icon">
+  <title>Manohar's Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Orbitron', sans-serif;
+      color: #ffffff;
+      overflow-x: hidden;
+      background: black;
+    }
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 0;
+      width: 100%;
+      height: 100vh;
+    }
+    .sunlight {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 50%;
+      height: 100vh;
+      background: radial-gradient(circle at 0% 50%, rgba(255, 170, 0, 0.5), transparent 70%);
+      z-index: 1;
+      pointer-events: none;
+    }
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      padding: 1rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      background: linear-gradient(180deg, rgba(10, 10, 35, 0.8), transparent);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 0 20px rgba(0, 255, 204, 0.3);
+      animation: navPulse 5s ease-in-out infinite;
+    }
+    .nav-content {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      position: relative;
+      width: 100%;
+      max-width: 1200px;
+      justify-content: space-between;
+    }
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    nav a.nav-link {
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 1.2rem;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      background: rgba(255, 69, 0, 0.2);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    nav a.nav-link:hover {
+      transform: translateY(-3px);
+      background: rgba(255, 69, 0, 0.5);
+      box-shadow: 0 0 15px rgba(255, 69, 0, 0.7);
+    }
+    nav a.nav-link::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transition: all 0.5s ease;
+    }
+    nav a.nav-link:hover::after {
+      left: 100%;
+    }
+    .social-nav {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin-top: 1rem;
+    }
+    .social-nav a {
+      margin: 0;
+      display: flex;
+      align-items: center;
+    }
+    .social-nav img {
+      width: 48px;
+      height: 48px;
+      transition: all 0.3s ease;
+      filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.3));
+    }
+    .social-nav a:hover img {
+      transform: scale(1.2) rotate(10deg);
+      filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.5));
+    }
+    .nav-particles {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+    }
+    section {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      z-index: 1;
+      padding: 5rem 1.5rem;
+    }
+    #home {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 5rem;
+    }
+    .section-content {
+      text-align: center;
+      max-width: 90%;
+      opacity: 0;
+      transform: translateY(50px);
+    }
+    #home .section-content {
+      text-align: left;
+      max-width: 45%;
+    }
+    h1, h2, p:not(.skill-item span) {
+      color: #ffffff;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    }
+    h1 {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      margin-bottom: 0.5rem;
+    }
+    .typewriter-container {
+      display: block;
+      font-size: clamp(1.5rem, 3vw, 2rem);
+    }
+    .typewriter {
+      color: #ff4500;
+      overflow: hidden;
+      border-right: 0.15em solid #ff4500;
+      white-space: nowrap;
+      display: inline-block;
+    }
+    h2 {
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      margin-bottom: 1rem;
+    }
+    p {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+    .profile-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .profile-image {
+      width: clamp(200px, 25vw, 300px);
+      height: clamp(200px, 25vw, 300px);
+      border-radius: 50%;
+      border: 4px solid #00ffcc;
+      box-shadow: 0 0 30px rgba(0, 255, 204, 0.7);
+      object-fit: cover;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      animation: float 4s ease-in-out infinite;
+    }
+    .profile-image:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 40px rgba(0, 255, 204, 1);
+    }
+    .about-text {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    .download-button {
+      display: inline-block;
+      padding: 0.8rem 1.5rem;
+      background: #ff4500;
+      color: #ffffff;
+      text-decoration: none;
+      font-size: clamp(0.9rem, 1.5vw, 1rem);
+      border-radius: 25px;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 10px rgba(255, 69, 0, 0.5);
+      margin-top: 1rem;
+    }
+    .download-button:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 20px rgba(255, 69, 0, 1);
+      background: #ff6500;
+    }
+    .contact-link {
+      color: #ff4500;
+      text-decoration: none;
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      transition: all 0.3s ease;
+      display: inline-block;
+    }
+    .contact-link:hover {
+      text-shadow: 0 0 10px #ff4500;
+      transform: scale(1.05);
+    }
+    .skills-container {
+      position: relative;
+      width: clamp(600px, 80vw, 800px);
+      height: clamp(600px, 80vw, 800px);
+      margin: 2rem auto;
+      perspective: 1000px;
+    }
+    .skills-center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: clamp(160px, 15vw, 180px);
+      height: clamp(160px, 15vw, 180px);
+      background: radial-gradient(circle, rgba(255, 170, 0, 0.8), rgba(255, 69, 0, 0.2));
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 0 20px rgba(255, 170, 0, 0.5);
+      z-index: 10;
+      animation: pulse 3s ease-in-out infinite;
+      pointer-events: none;
+    }
+    .skills-center span {
+      font-size: clamp(1.2rem, 2vw, 1.4rem);
+      color: #ffffff;
+      text-shadow: 0 0 5px rgba(255, 69, 0, 0.5);
+    }
+    .skill-item {
+      position: absolute;
+      width: clamp(70px, 10vw, 80px);
+      text-align: center;
+      transform-style: preserve-3d;
+      transition: transform 0.3s ease;
+    }
+    .skill-item img {
+      width: clamp(45px, 7vw, 50px);
+      height: clamp(45px, 7vw, 50px);
+      border-radius: 50%;
+      border: 2px solid #00ffcc;
+      box-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .skill-item span {
+      display: block;
+      font-size: clamp(0.8rem, 1.5vw, 0.9rem);
+      margin-top: 0.5rem;
+      color: #ff4500;
+      text-shadow: 0 0 5px rgba(255, 69, 0, 0.5);
+    }
+    .skill-item:hover img {
+      transform: scale(1.2);
+      box-shadow: 0 0 20px rgba(0, 255, 204, 1);
+    }
+    .skill-item::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, rgba(0, 255, 204, 0.3), transparent 70%);
+      border-radius: 50%;
+      z-index: -1;
+      opacity: 0;
+      animation: comet-trail 2s linear infinite;
+    }
+    .orbit-path {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      border: 1px dashed rgba(255, 69, 0, 0.3);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      z-index: 5;
+    }
+    .project-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .project-card {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 1.5rem;
+      border-radius: 10px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      opacity: 0;
+      transform: translateX(100px);
+    }
+    .project-card:nth-child(even) {
+      transform: translateX(-100px);
+    }
+    .project-card:hover {
+      transform: translateY(-10px) rotate(2deg);
+      box-shadow: 0 0 20px rgba(0, 255, 204, 0.5);
+      border: 2px solid #ff4500;
+    }
+    .project-card::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, rgba(255, 69, 0, 0.3), transparent 70%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: -1;
+    }
+    .project-card:hover::after {
+      opacity: 1;
+    }
+    .project-image {
+      width: 200px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 2px solid #00ffcc;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .project-card:hover .project-image {
+      transform: scale(1.1);
+      box-shadow: 0 0 15px rgba(0, 255, 204, 0.7);
+    }
+    .project-content {
+      flex: 1;
+    }
+    .github-link, .website-link {
+      display: inline-block;
+      color: #ff4500;
+      text-decoration: none;
+      font-size: clamp(0.9rem, 1.5vw, 1rem);
+      margin-top: 0.5rem;
+      transition: all 0.3s ease;
+      margin-right: 1rem;
+    }
+    .website-link {
+      color: #00ffcc;
+    }
+    .github-link:hover, .website-link:hover {
+      text-shadow: 0 0 10px #ff4500;
+      transform: scale(1.05);
+    }
+    .website-link:hover {
+      text-shadow: 0 0 10px #00ffcc;
+    }
+    .cursor {
+      position: fixed;
+      width: 20px;
+      height: 20px;
+      border: 2px solid #ff4500;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 999;
+      transition: transform 0.1s ease, box-shadow 0.3s ease;
+    }
+    .cursor.glow {
+      box-shadow: 0 0 20px #ff4500, 0 0 40px #ff4500;
+      transform: scale(1.3);
+    }
+    .cursor-trail {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      background: rgba(255, 69, 0, 0.5);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 998;
+      transition: all 0.2s ease;
+    }
+    @keyframes pulse {
+      0% { transform: translate(-50%, -50%) scale(1); }
+      50% { transform: translate(-50%, -50%) scale(1.05); }
+      100% { transform: translate(-50%, -50%) scale(1); }
+    }
+    @keyframes comet-trail {
+      0% { opacity: 0.5; transform: scale(1); }
+      50% { opacity: 0.2; transform: scale(1.5); }
+      100% { opacity: 0; transform: scale(2); }
+    }
+    @keyframes navPulse {
+      0% { box-shadow: 0 0 20px rgba(0, 255, 204, 0.3); }
+      50% { box-shadow: 0 0 30px rgba(0, 255, 204, 0.5); }
+      100% { box-shadow: 0 0 20px rgba(0, 255, 204, 0.3); }
+    }
+    @keyframes float {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0); }
+    }
+    @media (max-width: 768px) {
+      .sunlight {
+        width: 30%;
+        background: radial-gradient(circle at 0% 50%, rgba(255, 170, 0, 0.3), transparent 60%);
+        transform: translateX(-10%);
+      }
+      nav {
+        padding: 0.5rem;
+      }
+      .nav-content {
+        flex-direction: column;
+        gap: 0.3rem;
+      }
+      .nav-links {
+        gap: 0.3rem;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      nav a.nav-link {
+        font-size: 0.8rem;
+        padding: 0.2rem 0.5rem;
+        border-radius: 12px;
+      }
+      .social-nav {
+        gap: 0.6rem;
+        margin-top: 0.5rem;
+      }
+      .social-nav img {
+        width: 28px;
+        height: 28px;
+      }
+      section {
+        min-height: auto;
+        padding: 3rem 0.5rem;
+      }
+      #home {
+        flex-direction: column;
+        padding: 4rem 0.5rem;
+      }
+      #home .section-content {
+        max-width: 100%;
+        text-align: center;
+        margin-top: 0.5rem;
+      }
+      #contact {
+        min-height: 50vh;
+        position: relative;
+        z-index: 2;
+      }
+      .section-content h1 {
+        margin-bottom: 0.5rem;
+      }
+      .section-content p {
+        margin-bottom: 1rem;
+      }
+      .profile-image {
+        width: clamp(100px, 16vw, 140px);
+        height: clamp(100px, 16vw, 140px);
+        margin: 0.5rem auto;
+      }
+      .skills-container {
+        width: clamp(200px, 50vw, 300px);
+        height: clamp(200px, 50vw, 300px);
+        margin: 1rem auto;
+        margin-bottom: 1rem;
+      }
+      .skills-center {
+        width: clamp(100px, 12vw, 120px);
+        height: clamp(100px, 12vw, 120px);
+      }
+      .skills-center span {
+        font-size: clamp(0.8rem, 1.5vw, 1rem);
+      }
+      .skill-item {
+        width: clamp(35px, 7vw, 40px);
+      }
+      .skill-item img {
+        width: clamp(20px, 5vw, 25px);
+        height: clamp(20px, 5vw, 25px);
+      }
+      .skill-item span {
+        font-size: clamp(0.4rem, 1vw, 0.5rem);
+        margin-top: 0.3rem;
+      }
+      .orbit-path {
+        width: clamp(120px, 35vw, 160px) !important;
+        height: clamp(72px, 21vw, 96px) !important;
+      }
+      .project-grid {
+        gap: 1.5rem;
+      }
+      .project-card {
+        flex-direction: column;
+        text-align: center;
+        padding: 1.2rem;
+      }
+      .project-image {
+        width: 100%;
+        max-width: 180px;
+        height: auto;
+      }
+      h1 {
+        font-size: clamp(1.5rem, 4vw, 2rem);
+      }
+      .typewriter-container {
+        font-size: clamp(1rem, 2.5vw, 1.5rem);
+      }
+      p {
+        font-size: clamp(0.8rem, 1.5vw, 1rem);
+      }
+      .download-button {
+        padding: 0.6rem 1rem;
+        font-size: clamp(0.7rem, 1.2vw, 0.8rem);
+        margin-top: 0.8rem;
+      }
+      .contact-link {
+        font-size: clamp(0.8rem, 1.5vw, 1rem);
+      }
+    }
+    @media (max-width: 480px) {
+      .sunlight {
+        width: 25%;
+        background: radial-gradient(circle at 0% 50%, rgba(255, 170, 0, 0.2), transparent 50%);
+        transform: translateX(-5%);
+      }
+      nav a.nav-link {
+        font-size: 0.7rem;
+        padding: 0.2rem 0.4rem;
+        border-radius: 10px;
+      }
+      .social-nav img {
+        width: 24px;
+        height: 24px;
+      }
+      .skills-container {
+        width: clamp(180px, 45vw, 250px);
+        height: clamp(180px, 45vw, 250px);
+      }
+      .skills-center {
+        width: clamp(80px, 10vw, 100px);
+        height: clamp(80px, 10vw, 100px);
+      }
+      .skill-item img {
+        width: clamp(18px, 4vw, 22px);
+        height: clamp(18px, 4vw, 22px);
+      }
+      .skill-item span {
+        font-size: clamp(0.35rem, 0.8vw, 0.45rem);
+      }
+      .orbit-path {
+        width: clamp(100px, 30vw, 140px) !important;
+        height: clamp(60px, 18vw, 84px) !important;
+      }
+      .profile-image {
+        width: clamp(80px, 14vw, 120px);
+        height: clamp(80px, 14vw, 120px);
+      }
+      .project-image {
+        max-width: 160px;
+      }
+    }
+    .name {
+      color: #ff4500;
+    }
+  </style>
+</head>
+<body>
+  <div class="cursor"></div>
+  <div class="sunlight"></div>
+  <nav>
+    <div class="nav-content">
+      <div class="nav-links">
+        <a href="#home" class="nav-link">Home</a>
+        <a href="#about" class="nav-link">About</a>
+        <a href="#skills" class="nav-link">Skills</a>
+        <a href="#projects" class="nav-link">Projects</a>
+        <a href="#contact" class="nav-link">Contact</a>
+      </div>
+      <canvas class="nav-particles"></canvas>
+    </div>
+  </nav>
+  <section id="home">
+    <div class="section-content">
+      <h1>Welcome to My Portfolio</h1>
+      <span class="typewriter-container"><span class="typewriter"></span></span>
+      <p>I'm <span class="name">Basappagari Manohar</span>, a passionate web developer crafting responsive and user-friendly digital experiences with code and creativity.</p>
+    </div>
+    <div class="profile-container">
+      <img src="https://res.cloudinary.com/dcd6l5egh/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/v1744548549/PIC_eltmxq.jpg" alt="Profile Image" class="profile-image">
+      <div class="social-nav">
+        <a href="https://github.com/ManuSSandStrom" target="_blank" class="github">
+          <img src="https://img.icons8.com/ios-filled/50/ffffff/github.png" alt="GitHub">
+        </a>
+        <a href="https://www.linkedin.com/in/ykyw" target="_blank" class="linkedin">
+          <img src="https://img.icons8.com/color/48/000000/linkedin.png" alt="LinkedIn">
+        </a>
+      </div>
+    </div>
+  </section>
+  <section id="about">
+    <div class="section-content">
+      <h1 class="about-text">About Me</h1>
+      <p class="about-text">I’m Basappagari Manohar, a passionate web developer and MCA student with a strong foundation in HTML, CSS, JavaScript, and Java. I specialize in building responsive, user-friendly websites tailored to client needs. As a freelancer, I focus on delivering high-quality, visually appealing, and functional web solutions. With hands-on experience in real-world projects, I bring strong problem-solving skills, a love for clean design, and a commitment to continuous learning. Let’s work together to bring your vision to life.</p>
+      <h2 class="about-text">Education</h2>
+      <p class="about-text"><strong>Master of Computer Applications (MCA)</strong><br>Madanapalle Institute of Technology and Science<br>(Expected: 2026) | CGPA: 8.69 (1st semester)</p>
+      <p class="about-text"><strong>Bachelor of Computer Applications (BCA)</strong><br>Mother Teresa Degree College, Palamaner<br>(Completed: 2024) | CGPA: 8.50</p>
+      <a href="YOUR_RESUME_URL_HERE" target="_blank" class="download-button" download>Download Resume</a>
+      <div class="social-nav">
+        <a href="https://api.whatsapp.com/send?phone=919515022680" target="_blank" class="whatsapp">
+          <img src="https://img.icons8.com/color/48/000000/whatsapp.png" alt="WhatsApp">
+        </a>
+        <a href="https://github.com/ManuSSandStrom" target="_blank" class="github">
+          <img src="https://img.icons8.com/ios-filled/50/ffffff/github.png" alt="GitHub">
+        </a>
+        <a href="https://www.linkedin.com/in/ykyw" target="_blank" class="linkedin">
+          <img src="https://img.icons8.com/color/48/000000/linkedin.png" alt="LinkedIn">
+        </a>
+      </div>
+    </div>
+  </section>
+  <section id="skills">
+    <div class="section-content">
+      <h1>My Skills</h1>
+      <div class="skills-container">
+        <div class="skills-center">
+          <span>11+</span>
+          <span>Skills</span>
+        </div>
+        <div class="orbit-path" style="width: 400px; height: 240px;"></div>
+        <div class="orbit-path" style="width: 600px; height: 360px;"></div>
+        <div class="orbit-path" style="width: 800px; height: 480px;"></div>
+        <div class="skill-item" data-orbit="0" data-radius="200" data-speed="0.5">
+          <img src="https://cdn.jsdelivr.net/npm/devicon@2.15.1/icons/html5/html5-original.svg" alt="HTML">
+          <span>HTML</span>
+        </div>
+        <div class="skill-item" data-orbit="90" data-radius="200" data-speed="0.5">
+          <img src="https://cdn.jsdelivr.net/npm/devicon@2.15.1/icons/css3/css3-original.svg" alt="CSS">
+          <span>CSS</span>
+        </div>
+        <div class="skill-item" data-orbit="180" data-radius="200" data-speed="0.5">
+          <img src="https://cdn.jsdelivr.net/npm/devicon@2.15.1/icons/javascript/javascript-original.svg" alt="JavaScript">
+          <span>JavaScript</span>
+        </div>
+        <div class="skill-item" data-orbit="270" data-radius="200" data-speed="0.5">
+          <img src="https://cdn.jsdelivr.net/npm/devicon@2.15.1/icons/mongodb/mongodb-original.svg" alt="MongoDB">
+          <span>MongoDB</span>
+        </div>
+        <div class="skill-item" data-orbit="0" data-radius="300" data-speed="0.4">
+          <img src="https://cdn.jsdelivr.net/npm/devicon@2.15.1/icons/express/express-original.svg" alt="Express.js">
+          <span>Express.js</span>
+        </div>
+        <div class="skill-item" data-orbit="72" data-radius="300" data-speed="0.4">
+          <img src="https://cdn.jsdelivr.net/npm/devicon@2.15.1/icons/nodejs/nodejs-original.svg" alt="Node.js">
+          <span>Node.js</span>
+        </div>
+        <div class="skill-item" data-orbit="144" data-radius="300" data-speed="0.4">
+          <img src="https://cdn.jsdelivr.net/npm/devicon@2.15.1/icons/react/react-original.svg" alt="React">
+          <span>React</span>
+        </div>
+        <div class="skill-item" data-orbit="216" data-radius="300" data-speed="0.4">
+          <img src="https://cdn.jsdelivr.net/npm/devicon@2.15.1/icons/java/java-original.svg" alt="Java">
+          <span>Java</span>
+        </div>
+        <div class="skill-item" data-orbit="288" data-radius="300" data-speed="0.4">
+          <img src="https://cdn.jsdelivr.net/npm/devicon@2.15.1/icons/mysql/mysql-original.svg" alt="SQL">
+          <span>SQL</span>
+        </div>
+        <div class="skill-item" data-orbit="0" data-radius="400" data-speed="0.3">
+          <img src="https://cdn.jsdelivr.net/npm/devicon@2.15.1/icons/github/github-original.svg" alt="GitHub">
+          <span>GitHub</span>
+        </div>
+        <div class="skill-item" data-orbit="90" data-radius="400" data-speed="0.3">
+          <img src="https://cdn.jsdelivr.net/npm/devicon@2.15.1/icons/vscode/vscode-original.svg" alt="VS Code">
+          <span>VS Code</span>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section id="projects">
+    <div class="section-content">
+      <h1>My Projects</h1>
+      <div class="project-grid">
+        <div class="project-card">
+          <img src="https://res.cloudinary.com/dcd6l5egh/image/upload/v1748187796/logo22_mpm68a.jpg" alt="Project 1" class="project-image">
+          <div class="project-content">
+            <h2>Newsfootballacademy</h2>
+            <p>NewsFootball Academy is a dynamic website built using HTML, CSS, and JavaScript to showcase our football training programs, player highlights, and academy updates.
+                 Professionally designed and hosted, it reflects our commitment to nurturing future football stars</p>
+            <a href="https://manussandstrom.github.io/NewsFootballAcademy/" class="github-link" target="_blank">View on GitHub</a>
+            <a href="https://newsfootballacademy.in/" class="website-link" target="_blank">Visit Website</a>
+          </div>
+        </div>
+        <div class="project-card">
+          <img src="https://res.cloudinary.com/dcd6l5egh/image/upload/v1736503744/cld-sample-2.jpg" alt="Project 2" class="project-image">
+          <div class="project-content">
+            <h2>Arunachaleshwara Traders</h2>
+            <p>Arunachaleshwara Traders is a clean and informative website built using HTML, CSS, and JavaScript. It showcases the company's products and services with a user-friendly design, providing visitors with easy access to essential business information.
+                 The site is fully responsive and hosted for seamless online presence.</p>
+            <a href="https://manussandstrom.github.io/Arunachaleshwara-Traders/" class="github-link" target="_blank">View on GitHub</a>
+            <a href="https://arunachaleshwara-traders.vercel.app/" class="website-link" target="_blank">Visit Website</a>
+          </div>
+        </div>
+        <div class="project-card">
+          <img src="https://res.cloudinary.com/dcd6l5egh/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/v1744520630/professional_pic_izpwrl.jpg" alt="Project 3" class="project-image">
+          <div class="project-content">
+            <h2>MANU AI HUMANIZER</h2>
+            <p>Humanize AI is a student-focused tool built using HTML, CSS, and JavaScript that converts AI-generated text into more natural,
+                 human-like language—helping students make their content more personalized and authentic.</p>
+            <a href="https://manussandstrom.github.io/HUMANIZEAI1/" class="github-link" target="_blank">View on GitHub</a>
+            <a href="https://humanizeai.vercel.app/" class="website-link" target="_blank">Visit Website</a>
+          </div>
+        </div>
+        <div class="project-card">
+          <img src="https://res.cloudinary.com/dcd6l5egh/image/upload/v1742313272/digital_11_lyrjtc.jpg" alt="Project 4" class="project-image">
+          <div class="project-content">
+            <h2>MITS  HIREHUB</h2>
+            <p>MITS Hire Hub is a placement-focused prototype website designed for our college using HTML, CSS, and JavaScript. It streamlines student and recruiter interactions by showcasing student profiles,
+                job opportunities, and placement updates in a structured and user-friendly way.</p>
+            <a href="https://manussandstrom.github.io/MITS-HireHub/" class="github-link" target="_blank">View on GitHub</a>
+            <a href="https://mits-hire-hub.vercel.app/" class="website-link" target="_blank">Visit Website</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section id="contact">
+    <div class="section-content">
+      <h1>Contact Me</h1>
+      <p>Send a signal through the cosmos! Reach me at:</p>
+      <p>Phone: <a href="tel:+919515022680" class="contact-link">9515022680</a></p>
+      <p>Email: <a href="mailto:manoharbasappagari18@gmail.com" class="contact-link">manoharbasappagari18@gmail.com</a></p>
+      <p>LinkedIn: <a href="https://www.linkedin.com/in/ykyw" class="contact-link" target="_blank">linkedin.com/in/ykyw</a></p>
+      <p>GitHub: <a href="https://github.com/ManuSSandStrom" class="contact-link" target="_blank">github.com/ManuSSandStrom</a></p>
+      <p>Portfolio: <a href="https://manu-dev-life.vercel.app" class="contact-link" target="_blank">manu-dev-life.vercel.app</a></p>
+    </div>
+  </section>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script>
+    // Three.js Setup
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    // Nav Particles Canvas
+    const navCanvas = document.querySelector('.nav-particles');
+    const navScene = new THREE.Scene();
+    const navCamera = new THREE.PerspectiveCamera(45, navCanvas.clientWidth / navCanvas.clientHeight, 0.1, 1000);
+    const navRenderer = new THREE.WebGLRenderer({ canvas: navCanvas, alpha: true });
+    navRenderer.setSize(navCanvas.clientWidth, navCanvas.clientHeight);
+
+    const particleGeometry = new THREE.BufferGeometry();
+    const particleCount = 50;
+    const particleVertices = [];
+    const particleColors = [];
+    const particleSizes = [];
+    for (let i = 0; i < particleCount; i++) {
+      const x = (Math.random() - 0.5) * 20;
+      const y = (Math.random() - 0.5) * 5;
+      const z = (Math.random() - 0.5) * 10;
+      particleVertices.push(isNaN(x) ? 0 : x, isNaN(y) ? 0 : y, isNaN(z) ? 0 : z);
+      const hue = Math.random();
+      const color = new THREE.Color().setHSL(hue, 0.7, 0.6);
+      particleColors.push(color.r, color.g, color.b);
+      particleSizes.push(0.1 + Math.random() * 0.2);
+    }
+    particleGeometry.setAttribute('position', new THREE.Float32BufferAttribute(particleVertices, 3));
+    particleGeometry.setAttribute('color', new THREE.Float32BufferAttribute(particleColors, 3));
+    particleGeometry.setAttribute('size', new THREE.Float32BufferAttribute(particleSizes, 1));
+    const particleMaterial = new THREE.PointsMaterial({
+      size: 0.2,
+      sizeAttenuation: true,
+      transparent: true,
+      opacity: 0.7,
+      vertexColors: true
+    });
+    const particles = new THREE.Points(particleGeometry, particleMaterial);
+    navScene.add(particles);
+    navCamera.position.z = 10;
+
+    // Multicolored Starfield with Gravity
+    const starLayers = [];
+    const starPositions = [];
+    const starOriginalPositions = [];
+    const starSizes = [];
+    for (let i = 0; i < 3; i++) {
+      const starGeometry = new THREE.BufferGeometry();
+      const starMaterial = new THREE.PointsMaterial({
+        size: 0.1 * (i + 1),
+        sizeAttenuation: true,
+        transparent: true,
+        opacity: 0.8,
+        vertexColors: true
+      });
+      const stars = new Float32Array(2000 * (i + 1));
+      const colors = new Float32Array(2000 * (i + 1));
+      const sizes = new Float32Array(2000 * (i + 1) / 3);
+      const positions = [];
+      for (let j = 0; j < stars.length; j += 3) {
+        const x = (Math.random() - 0.5) * 2000;
+        const y = (Math.random() - 0.5) * 2000;
+        const z = (Math.random() - 0.5) * 2000;
+        stars[j] = isNaN(x) ? 0 : x;
+        stars[j + 1] = isNaN(y) ? 0 : y;
+        stars[j + 2] = isNaN(z) ? 0 : z;
+        sizes[j / 3] = 0.1 * (i + 1);
+        const hue = Math.random();
+        const color = new THREE.Color().setHSL(hue, 0.7, 0.6);
+        colors[j] = color.r;
+        colors[j + 1] = color.g;
+        colors[j + 2] = color.b;
+        positions.push({ x: stars[j], y: stars[j + 1], z: stars[j + 2] });
+      }
+      starGeometry.setAttribute('position', new THREE.BufferAttribute(stars, 3));
+      starGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+      starGeometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
+      const starField = new THREE.Points(starGeometry, starMaterial);
+      starField.position.z = -50 * (i + 1);
+      scene.add(starField);
+      starLayers.push(starField);
+      starPositions.push(starGeometry.attributes.position);
+      starOriginalPositions.push(positions);
+      starSizes.push(starGeometry.attributes.size);
+    }
+
+    // Rotating Galaxy for Home Section
+    const galaxyGroup = new THREE.Group();
+    const galaxyGeometry = new THREE.BufferGeometry();
+    const galaxyVertices = [];
+    const galaxyColors = [];
+    const galaxySizes = [];
+    const numGalaxyStars = 5000;
+    for (let i = 0; i < numGalaxyStars; i++) {
+      const theta = Math.random() * 2 * Math.PI;
+      const radius = Math.pow(Math.random(), 2) * 50;
+      const x = radius * Math.cos(theta);
+      const y = radius * Math.sin(theta);
+      const z = (Math.random() - 0.5) * 10;
+      galaxyVertices.push(isNaN(x) ? 0 : x, isNaN(y) ? 0 : y, isNaN(z) ? 0 : z);
+      const hue = 0.6 + Math.random() * 0.2;
+      const color = new THREE.Color().setHSL(hue, 0.8, 0.7);
+      galaxyColors.push(color.r, color.g, color.b);
+      galaxySizes.push(0.2 + Math.random() * 0.3);
+    }
+    galaxyGeometry.setAttribute('position', new THREE.Float32BufferAttribute(galaxyVertices, 3));
+    galaxyGeometry.setAttribute('color', new THREE.Float32BufferAttribute(galaxyColors, 3));
+    galaxyGeometry.setAttribute('size', new THREE.Float32BufferAttribute(galaxySizes, 1));
+    const galaxyMaterial = new THREE.PointsMaterial({
+      size: 0.3,
+      sizeAttenuation: true,
+      transparent: true,
+      opacity: 0.7,
+      vertexColors: true,
+      blending: THREE.AdditiveBlending
+    });
+    const galaxy = new THREE.Points(galaxyGeometry, galaxyMaterial);
+    galaxy.position.set(50, 20, -50);
+    galaxyGroup.add(galaxy);
+    scene.add(galaxyGroup);
+
+    // Nebula Particle System
+    const nebulaGeometry = new THREE.BufferGeometry();
+    const nebulaVertices = [];
+    const nebulaColors = [];
+    const nebulaSizes = [];
+    const numNebulaParticles = 1000;
+    for (let i = 0; i < numNebulaParticles; i++) {
+      const x = (Math.random() - 0.5) * 2000;
+      const y = (Math.random() - 0.5) * 2000;
+      const z = (Math.random() - 0.5) * 2000;
+      nebulaVertices.push(isNaN(x) ? 0 : x, isNaN(y) ? 0 : y, isNaN(z) ? 0 : z);
+      const hue = Math.random() * 0.3;
+      const color = new THREE.Color().setHSL(hue, 0.5, 0.4);
+      nebulaColors.push(color.r, color.g, color.b);
+      nebulaSizes.push(0.5 + Math.random());
+    }
+    nebulaGeometry.setAttribute('position', new THREE.Float32BufferAttribute(nebulaVertices, 3));
+    nebulaGeometry.setAttribute('color', new THREE.Float32BufferAttribute(nebulaColors, 3));
+    nebulaGeometry.setAttribute('size', new THREE.Float32BufferAttribute(nebulaSizes, 1));
+    const nebulaMaterial = new THREE.PointsMaterial({
+      size: 1,
+      sizeAttenuation: true,
+      transparent: true,
+      opacity: 0.3,
+      vertexColors: true,
+      blending: THREE.AdditiveBlending
+    });
+    const nebula = new THREE.Points(nebulaGeometry, nebulaMaterial);
+    nebula.position.z = -100;
+    scene.add(nebula);
+
+    camera.position.z = 10;
+
+    // Mouse Position for Gravity
+    let mouse = { x: 0, y: 0 };
+    document.addEventListener('mousemove', (e) => {
+      mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+      mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+    });
+
+    // Project Hover for Galaxy Spin
+    let projectHover = false;
+    document.querySelectorAll('.project-card').forEach(card => {
+      card.addEventListener('mouseenter', () => {
+        projectHover = true;
+      });
+      card.addEventListener('mouseleave', () => {
+        projectHover = false;
+      });
+    });
+
+    // Skills Planetary Orbit Animation
+    const skillItems = document.querySelectorAll('.skill-item');
+    function animateSkills() {
+      skillItems.forEach((item) => {
+        let angle = parseFloat(item.dataset.orbit) || 0;
+        let radius = parseFloat(item.dataset.radius) || 100;
+        const speed = parseFloat(item.dataset.speed) || 0.5;
+        // Scale radius based on screen width: smaller for mobile, larger for laptop
+        const scale = window.innerWidth <= 768 ? Math.min(window.innerWidth / 768, 0.4) : Math.min(window.innerWidth / 1200, 1);
+        radius *= scale;
+        angle += speed;
+        item.dataset.orbit = angle;
+        const rad = (angle * Math.PI) / 180;
+        let x = radius * Math.cos(rad);
+        let y = (radius * 0.6) * Math.sin(rad);
+        x = isNaN(x) ? 0 : x;
+        y = isNaN(y) ? 0 : y;
+        const minDistance = 40 * scale;
+        const distance = Math.sqrt(x * x + y * y) || 1;
+        let adjustedX = x;
+        let adjustedY = y;
+        if (distance < minDistance) {
+          const scaleFactor = minDistance / distance;
+          adjustedX = x * scaleFactor;
+          adjustedY = y * scaleFactor;
+        }
+        item.style.left = `50%`;
+        item.style.top = `50%`;
+        item.style.transform = `translate(-50%, -50%) translate(${adjustedX}px, ${adjustedY}px)`;
+        const span = item.querySelector('span');
+        if (span) span.style.transform = `translateY(${scale * 10}px)`;
+      });
+      requestAnimationFrame(animateSkills);
+    }
+    animateSkills();
+
+    // Typewriter Effect
+    const typewriter = document.querySelector('.typewriter');
+    const words = ['Developer', 'Creator', 'Innovator', 'Designer', 'Freelancer'];
+    let wordIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+
+    function type() {
+      const currentWord = words[wordIndex];
+      if (!isDeleting && charIndex <= currentWord.length) {
+        typewriter.textContent = currentWord.substring(0, charIndex);
+        charIndex++;
+        setTimeout(type, 100);
+      } else if (isDeleting && charIndex >= 0) {
+        typewriter.textContent = currentWord.substring(0, charIndex);
+        charIndex--;
+        setTimeout(type, 50);
+      } else {
+        isDeleting = !isDeleting;
+        if (!isDeleting) {
+          wordIndex = (wordIndex + 1) % words.length;
+        }
+        setTimeout(type, isDeleting ? 50 : 1000);
+      }
+    }
+    type();
+
+    // Cursor Trail Particles
+    const trailParticles = [];
+    const maxTrailParticles = 10;
+    for (let i = 0; i < maxTrailParticles; i++) {
+      const particle = document.createElement('div');
+      particle.className = 'cursor-trail';
+      document.body.appendChild(particle);
+      trailParticles.push({ element: particle, x: 0, y: 0, life: 0 });
+    }
+
+    // Animation Loop
+    function animate() {
+      requestAnimationFrame(animate);
+      starLayers.forEach((layer, i) => {
+        layer.rotation.y += 0.0003 * (3 - i);
+        const positions = starPositions[i].array;
+        const originals = starOriginalPositions[i];
+        const sizes = starSizes[i].array;
+        for (let j = 0; j < positions.length; j += 3) {
+          const origX = originals[j / 3].x;
+          const origY = originals[j / 3].y;
+          const origZ = originals[j / 3].z;
+          const mouseWorldX = mouse.x * 800;
+          const mouseWorldY = mouse.y * 800;
+          const distX = mouseWorldX - origX;
+          const distY = mouseWorldY - origY;
+          const distance = Math.sqrt(distX * distX + distY * distY) || 1;
+          const strength = Math.min(500 / (distance + 50), 0.08) * (3 - i);
+          positions[j] = isNaN(origX + distX * strength) ? origX : origX + distX * strength;
+          positions[j + 1] = isNaN(origY + distY * strength) ? origY : origY + distY * strength;
+          positions[j + 2] = origZ;
+          sizes[j / 3] = distance < 200 ? 0.1 * (i + 1) * (1 + (200 - distance) / 100) : 0.1 * (i + 1);
+        }
+        starPositions[i].needsUpdate = true;
+        starSizes[i].needsUpdate = true;
+      });
+
+      galaxyGroup.rotation.y += projectHover ? 0.01 : 0.002;
+      const galaxyPos = galaxyGeometry.attributes.position.array;
+      for (let i = 0; i < galaxyPos.length; i += 3) {
+        const distX = mouse.x * 50 - galaxyPos[i];
+        const distY = mouse.y * 50 - galaxyPos[i + 1];
+        const distance = Math.sqrt(distX * distX + distY * distY) || 1;
+        const strength = Math.min(10 / (distance + 10), 0.1);
+        galaxyPos[i] += isNaN(distX * strength) ? 0 : distX * strength;
+        galaxyPos[i + 1] += isNaN(distY * strength) ? 0 : distY * strength;
+      }
+      galaxyGeometry.attributes.position.needsUpdate = true;
+
+      const nebulaPos = nebulaGeometry.attributes.position.array;
+      for (let i = 0; i < nebulaPos.length; i += 3) {
+        const dx = (Math.random() - 0.5) * 0.1;
+        const dy = (Math.random() - 0.5) * 0.1;
+        const dz = (Math.random() - 0.5) * 0.1;
+        nebulaPos[i] += isNaN(dx) ? 0 : dx;
+        nebulaPos[i + 1] += isNaN(dy) ? 0 : dy;
+        nebulaPos[i + 2] += isNaN(dz) ? 0 : dz;
+      }
+      nebulaGeometry.attributes.position.needsUpdate = true;
+
+      const particlePos = particleGeometry.attributes.position.array;
+      for (let i = 0; i < particlePos.length; i += 3) {
+        const angle = i / particleCount * Math.PI * 2 + Date.now() * 0.001;
+        particlePos[i] = isNaN(Math.cos(angle) * 10) ? 0 : Math.cos(angle) * 10;
+        particlePos[i + 1] = isNaN(Math.sin(angle) * 3) ? 0 : Math.sin(angle) * 3;
+      }
+      particleGeometry.attributes.position.needsUpdate = true;
+      navRenderer.render(navScene, navCamera);
+
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    // GSAP Scroll Animations
+    gsap.utils.toArray('section').forEach((section, i) => {
+      gsap.to(section.querySelector('.section-content'), {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: section,
+          start: window.innerWidth <= 768 ? 'top 90%' : 'top 80%',
+          end: window.innerWidth <= 768 ? 'bottom 10%' : 'bottom 20%',
+          scrub: true
+        }
+      });
+
+      if (i === 0) {
+        gsap.to('.profile-image', {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: section,
+            start: 'top 80%',
+            end: 'bottom 20%',
+            scrub: true
+          }
+        });
+        gsap.to('.social-nav', {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: section,
+            start: 'top 80%',
+            end: 'bottom 20%',
+            scrub: true
+          }
+        });
+        gsap.to(galaxyGroup, {
+          opacity: 1,
+          scrollTrigger: {
+            trigger: section,
+            start: 'top top',
+            end: 'bottom top',
+            scrub: true,
+            onEnter: () => {
+              galaxyGroup.visible = true;
+            },
+            onLeave: () => {
+              galaxyGroup.visible = false;
+            },
+            onEnterBack: () => {
+              galaxyGroup.visible = true;
+            },
+            onLeaveBack: () => {
+              galaxyGroup.visible = false;
+            }
+          }
+        });
+      }
+
+      if (section.id === 'about') {
+        gsap.to('.about-text', {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          stagger: 0.3,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: section,
+            start: 'top 80%',
+            end: 'bottom 20%',
+            scrub: true
+          }
+        });
+        gsap.to('.download-button', {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: section,
+            start: 'top 80%',
+            end: 'bottom 20%',
+            scrub: true
+          }
+        });
+        gsap.to('.social-nav', {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: section,
+            start: 'top 80%',
+            end: 'bottom 20%',
+            scrub: true
+          }
+        });
+      }
+
+      if (section.id === 'projects') {
+        gsap.utils.toArray('.project-card').forEach((card) => {
+          gsap.to(card, {
+            opacity: 1,
+            x: 0,
+            y: 0,
+            duration: 1,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: card,
+              start: 'top 90%',
+              end: 'top 50%',
+              scrub: 1
+            }
+          });
+        });
+      }
+
+      if (section.id === 'contact') {
+        gsap.to('.section-content h1, .section-content p, .contact-link', {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          stagger: 0.3,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: section,
+            start: window.innerWidth <= 768 ? 'top 90%' : 'top 80%',
+            end: window.innerWidth <= 768 ? 'bottom 10%' : 'bottom 20%',
+            scrub: true,
+            onEnter: () => {
+              if (window.innerWidth <= 768) {
+                section.querySelector('.section-content').style.opacity = 1;
+                section.querySelector('.section-content').style.transform = 'translateY(0)';
+              }
+            }
+          }
+        });
+      }
+    });
+
+    // Cursor Animation with Trail
+    const cursor = document.querySelector('.cursor');
+    let trailIndex = 0;
+    document.addEventListener('mousemove', (e) => {
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top = e.clientY + 'px';
+      const particle = trailParticles[trailIndex];
+      particle.element.style.left = e.clientX + 'px';
+      particle.element.style.top = e.clientY + 'px';
+      particle.element.style.opacity = 0.5;
+      particle.life = 1;
+      trailIndex = (trailIndex + 1) % maxTrailParticles;
+      trailParticles.forEach(p => {
+        if (p.life > 0) {
+          p.life -= 0.1;
+          p.element.style.opacity = p.life;
+          p.element.style.transform = `scale(${p.life})`;
+        }
+      });
+    });
+    document.querySelectorAll('a, .project-card').forEach(el => {
+      el.addEventListener('mouseenter', () => cursor.classList.add('glow'));
+      el.addEventListener('mouseleave', () => cursor.classList.remove('glow'));
+    });
+
+    // Smooth Scroll for Nav
+    document.querySelectorAll('nav a').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        if (this.getAttribute('href').startsWith('#')) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute('href'));
+          window.scrollTo({
+            top: target.offsetTop - 60,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+
+    // Responsive Resize
+    function resizeCanvas() {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      galaxy.scale.setScalar(clamp(0.8, 1, window.innerWidth / 1000));
+      navCamera.aspect = navCanvas.clientWidth / navCanvas.clientHeight;
+      navCamera.updateProjectionMatrix();
+      navRenderer.setSize(navCanvas.clientWidth, navCanvas.clientHeight);
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    // Clamp utility
+    function clamp(min, max, value) {
+      return Math.min(Math.max(value, min), max);
+    }
+  </script>
+</body>
+</html>
